@@ -6,11 +6,13 @@ const github = require('@actions/github');
 
 try {
   const token = core.getInput('token');
+  const serverName = core.getInput('server-name');
   const directory = core.getInput('directory');
-  const file = `tmp.zip`
   var serverUri = core.getInput('server-uri');
   if(!serverUri.endsWith("/")) serverUri += "/";
+  serverUri += "api/updateserver?server=" + serverName + "&token=" + token;
 
+  const file = `tmp.zip`
     // Create a writable stream to the zip file
     const output = fs.createWriteStream(file);
 

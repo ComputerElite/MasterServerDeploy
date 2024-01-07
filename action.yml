@@ -10,6 +10,9 @@ inputs:
   server-uri:  # id of input
     description: 'Uri of the master server'
     required: true
+  server-name:  # id of input
+    description: 'name of the server to update'
+    required: true
 runs:
   using: 'node20'
   main: 'index.js'
