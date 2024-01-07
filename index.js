@@ -14,25 +14,13 @@ try {
 
     const file = `tmp.zip`
     // Create a writable stream to the zip file
-    const output = fs.createWriteStream(file);
+    var output = file_system.createWriteStream(file);
+    var archive = archiver('zip');
 
-    // Create an archiver object
-    const archive = archiver('zip', {
-    zlib: { level: 9 } // Set compression level (optional)
-    });
+    output.on('close', function () {
+        console.log(archive.pointer() + ' total bytes');
+        console.log('archiver has been finalized and the output file descriptor has closed.');
 
-    // Pipe the archive data to the output file
-    archive.pipe(output);
-
-    // Add all files from the source directory to the archive
-    archive.directory(directory, false);
-
-    // Finalize the archive (write the zip file)
-    console.log('Saving file...')
-    archive.finalize();
-    isDone = false
-
-    output.on('end', () => {
         console.log('Zip file created successfully. Posting update to server...')
         const fileData = fs.readFileSync(file);
         const options = {
@@ -54,7 +42,6 @@ try {
             res.on('end', () => {
                 console.log('Update posted successfully')
                 console.log(responseData);
-                isDone = true;
             });
         });
         
@@ -71,9 +58,16 @@ try {
         req.end();
     });
 
-    while(!isDone) {
-        setTimeout(() => {}, 1000);
-    }
+    archive.on('error', function(err){
+        throw err;
+    });
+
+    archive.pipe(output);
+
+    // append files from a sub-directory, putting its contents at the root of archive
+    archive.directory(directory, false);
+
+    archive.finalize();
 
 } catch (error) {
     core.setFailed(error.message);
