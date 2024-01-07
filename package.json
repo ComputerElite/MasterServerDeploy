@@ -1,0 +1,24 @@
+{
+  "name": "masterserverdeploy",
+  "version": "1.0.0",
+  "description": "Github actions script for deploying to my MasterServer automatically",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ComputerElite/MasterServerDeploy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ComputerElite/MasterServerDeploy/issues"
+  },
+  "homepage": "https://github.com/ComputerElite/MasterServerDeploy#readme",
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@actions/github": "^6.0.0"
+  }
+}

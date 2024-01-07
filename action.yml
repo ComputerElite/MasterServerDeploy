@@ -1,0 +1,15 @@
+name: 'MasterServer Deploy'
+description: 'Deploys a built project to the master server'
+inputs:
+  token:  # id of input
+    description: 'Token for upload'
+    required: true
+  file:  # id of input
+    description: 'Zip file to deploy'
+    required: true
+  server-uri:  # id of input
+    description: 'Uri of the master server'
+    required: true
+runs:
+  using: 'node20'
+  main: 'index.js'
