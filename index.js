@@ -28,7 +28,9 @@ try {
     archive.directory(directory, false);
 
     // Finalize the archive (write the zip file)
+    console.log('Saving file...')
     archive.finalize();
+    isDone = false
 
     output.on('end', () => {
         console.log('Zip file created successfully. Posting update to server...')
@@ -45,12 +47,14 @@ try {
         
             // A chunk of data has been received.
             res.on('data', (chunk) => {
-            responseData += chunk;
+                responseData += chunk;
             });
         
             // The whole response has been received.
             res.on('end', () => {
-            console.log(responseData);
+                console.log('Update posted successfully')
+                console.log(responseData);
+                isDone = true;
             });
         });
         
@@ -67,7 +71,9 @@ try {
         req.end();
     });
 
-    
+    while(!isDone) {
+        setTimeout(() => {}, 1000);
+    }
 
 } catch (error) {
     core.setFailed(error.message);
