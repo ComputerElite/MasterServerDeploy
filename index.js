@@ -14,7 +14,7 @@ try {
 
     const file = `tmp.zip`
     // Create a writable stream to the zip file
-    var output = file_system.createWriteStream(file);
+    var output = fs.createWriteStream(file);
     var archive = archiver('zip');
 
     output.on('close', function () {
