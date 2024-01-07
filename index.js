@@ -30,7 +30,7 @@ try {
             },
         };
 
-        const req = https.request(url, options, (res) => {
+        const req = https.request(serverUri, options, (res) => {
             let responseData = '';
         
             // A chunk of data has been received.
