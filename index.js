@@ -1,13 +1,34 @@
 const core = require('@actions/core');
 const fs = require('fs');
 const https = require('https');
+const archiver = require('archiver');
 const github = require('@actions/github');
 
 try {
   const token = core.getInput('token');
-  const file = core.getInput('file');
+  const directory = core.getInput('directory');
+  const file = `tmp.zip`
   var serverUri = core.getInput('server-uri');
   if(!serverUri.endsWith("/")) serverUri += "/";
+
+    // Create a writable stream to the zip file
+    const output = fs.createWriteStream(file);
+
+    // Create an archiver object
+    const archive = archiver('zip', {
+    zlib: { level: 9 } // Set compression level (optional)
+    });
+
+    // Pipe the archive data to the output file
+    archive.pipe(output);
+
+    // Add all files from the source directory to the archive
+    archive.directory(directory, false);
+
+    // Finalize the archive (write the zip file)
+    archive.finalize();
+
+
   const fileData = fs.readFileSync(file);
   const options = {
     method: 'POST',
